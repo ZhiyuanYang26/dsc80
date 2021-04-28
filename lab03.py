@@ -318,10 +318,11 @@ def pet_name_by_owner(owners, pets):
     """
     o=owners[['OwnerID', 'Name']]
     p=pets[['OwnerID','Name']]
-    r=pd.merge(o, p, on ="OwnerID", how = "right")
-    r=r.drop(columns='OwnerID')
-    a=r.groupby('Name_x')['Name_y']
-    a=a.apply(lambda Name_y: ', '.join(Name_y))
+    fx = {'Name_x': "first", "Name_y":lambda x: list(x) if len(x) >= 2 else x}
+    r=pd.merge(o, p, on ="OwnerID", how = "right")    
+    #r=r.drop(columns='OwnerID')    
+    a=r.groupby("OwnerID").agg(fx)
+    a=a.set_index("Name_x")["Name_y"]
     return a
 
 
