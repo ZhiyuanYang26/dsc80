@@ -380,7 +380,7 @@ def relevant_word(out):
     >>> relevant_word(out) in out.index
     True
     """
-    return out.idxmax()[2]
+    return out.idxmax()[3]
 
 
 # ---------------------------------------------------------------------
