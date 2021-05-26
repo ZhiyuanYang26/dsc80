@@ -259,7 +259,6 @@ def match_9(string):
     True
     '''
 
-
     pattern = '^([N][Y]-[0-9]{2}-[A-Z]{3}-[0-9]{4}|[A-Z]{2}-[0-9]{2}-([S][A][N]|[L][A][X])-[0-9]{4})$'
 
     #Do not edit following code
@@ -347,9 +346,12 @@ def tfidf_data(review, reviews):
     bow = review.split()
     words = pd.Series(bow).value_counts()
     tflst=[]
+    clst=[]
     for i in words.index:
-        tf = review.count(i) / len(review.split())
+        cct=review.count(i)
+        tf = cct / len(review.split())
         tflst.append(tf)
+        clst.append(cct)
     idflst=[]
     for i in words.index:
         idf = np.log(len(reviews) / reviews.str.contains(i).sum())
@@ -359,6 +361,8 @@ def tfidf_data(review, reviews):
         ti=tflst[i]*idflst[i]
         til.append(ti) 
     df = pd.DataFrame(words)
+    #df['cnt']=clst
+    df['cnt']=df[0]
     df['tf']=tflst
     df['idf']=idflst
     df['tfidf']=til
